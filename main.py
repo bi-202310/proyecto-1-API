@@ -27,36 +27,31 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.post("/predict/bow-rf")
 def predict_bow_rf(data: DataModel):
-    # df = pd.DataFrame(data.dict(), columns = data.dict().keys(), index=[0]).T
-    d = {"review_es": "jksehf iwehg iuwehgfijwebfijewhrgijwhefijweoir2e"}
-    df = pd.Series(d.values())
+    df = pd.Series(data.dict().values())
     model = load('assets/bow_rf.joblib')
     prediction = model.predict(df)
-    return prediction
+    return prediction[0]
 
 
 @app.post("/predict/tfidf-gb")
 def predict_tfidf_gb(data: DataModel):
-    df = pd.DataFrame(data.dict(), columns=data.dict().keys(), index=[0])
-    df.columns = data.columns()
-    model = load('assets/tfidf-gb.joblib')
+    df = pd.Series(data.dict().values())
+    model = load('assets/tfidf_gb.joblib')
     prediction = model.predict(df)
-    return prediction
+    return prediction[0]
 
 
 @app.post("/predict/tfidf-rf")
 def predict_tfidf_rf(data: DataModel):
-    df = pd.DataFrame(data.dict(), columns=data.dict().keys(), index=[0])
-    df.columns = data.columns()
+    df = pd.Series(data.dict().values())
     model = load('assets/tfidf_rf.joblib')
     prediction = model.predict(df)
-    return prediction
+    return prediction[0]
 
 
 @app.post("/predict/tfidf-nb")
 def predict_tfidf_nb(data: DataModel):
-    df = pd.DataFrame(data.dict(), columns=data.dict().keys(), index=[0])
-    df.columns = data.columns()
+    df = pd.Series(data.dict().values())
     model = load('assets/tfidf_nb.joblib')
     prediction = model.predict(df)
-    return prediction
+    return prediction[0]
