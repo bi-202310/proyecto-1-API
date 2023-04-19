@@ -24,15 +24,21 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.post("/predict/bow-rf")
 def predict_bow_rf(data: DataModel):
-    df = pd.DataFrame(data.dict(), columns = data.dict().keys(), index=[0]).T
+    print(data)
+    d = data.dict()
+    print(d)
+    df = pd.DataFrame(d, columns = list(d.keys()), index=[0])
+    print(df)
+    
+    #df.columns = data.columns()
     model = load('assets/bow_rf.joblib')
     prediction = model.predict(df)
     return prediction
 
 @app.post("/predict/tfidf-gb")
 def predict_tfidf_gb(data: DataModel):
-    df = pd.DataFrame(data.dict(), columns = data.dict().keys(), index=[0])
-    df.columns = data.columns()
+    df = pd.DataFrame(d, columns=list(d.keys()), index=[0])
+    print(df)
     model = load('assets/tfidf-gb.joblib')
     prediction = model.predict(df)
     return prediction
