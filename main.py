@@ -4,6 +4,14 @@ from dataModel import DataModel
 import pandas as pd
 from joblib import load
 
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+nltk.download('stopwords')
+stop_words = set(stopwords.words('spanish'))
+nltk.download('punkt')
+
 app = FastAPI()
 
 @app.get("/")
@@ -16,8 +24,7 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.post("/predict/bow-rf")
 def predict_bow_rf(data: DataModel):
-    df = pd.DataFrame(data.dict(), columns = data.dict().keys(), index=[0])
-    df.columns = data.columns()
+    df = pd.DataFrame(data.dict(), columns = data.dict().keys(), index=[0]).T
     model = load('assets/bow_rf.joblib')
     prediction = model.predict(df)
     return prediction
